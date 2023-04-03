@@ -134,7 +134,7 @@ end
 time = os.date("*t")
 print(("%02d:%02d:%02d"):format(time.hour, time.min, time.sec))
 local mk_dir = io.popen("mktemp -d /tmp/bioarchlinux.XXX")
-os.execute("tar xf bioarchlinux.files -C " .. mk_dir)
+os.execute("tar xf /usr/share/lilac/Repo/x86_64/bioarchlinux.files -C " .. mk_dir)
 local pkgdir = get_pkgdir("cd " .. mk_dir .. " && ls -D")
 local name_ct, base_ct, version_ct, desc_ct, csize_ct, isize_ct, url_ct, license_ct, arch_ct, builddate_ct, packager_ct, depends_ct, optdepends_ct, makedepends_ct, files_ct  = get_content(pkgdir)
 print("Sucess: read finished")
