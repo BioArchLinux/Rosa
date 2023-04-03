@@ -133,10 +133,11 @@ end
 --main function--
 time = os.date("*t")
 print(("%02d:%02d:%02d"):format(time.hour, time.min, time.sec))
-local mk_dir = io.popen("mktemp -d /tmp/bioarchlinux.XXX")
-local mkdir_cont = mk_dir:read("*a")
-os.execute("tar xf /usr/share/lilac/Repo/x86_64/bioarchlinux.files -C " .. mkdir_cont)
-local pkgdir = get_pkgdir("cd " .. mk_dir .. " && ls -D")
+local mk_dir = os.execute("rm -rf /usr/share/lilac/Rosa/data && mkdir -p /usr/share/lilac/Rosa/data")
+if mk_dir then
+   os.execute("tar xf /usr/share/lilac/Repo/x86_64/bioarchlinux.files -C /usr/share/lilac/Rosa/data/")
+end
+local pkgdir = get_pkgdir("cd /usr/share/lilac/Rosa/data/ && ls -D")
 local name_ct, base_ct, version_ct, desc_ct, csize_ct, isize_ct, url_ct, license_ct, arch_ct, builddate_ct, packager_ct, depends_ct, optdepends_ct, makedepends_ct, files_ct  = get_content(pkgdir)
 print("Sucess: read finished")
 time = os.date("*t")
