@@ -110,15 +110,15 @@ end
 
 local function write_api(name, func, func_str)
    local nname = name:gsub("%s+", "")
-   lfs.mkdir("api/" .. nname)
-   local fn = string.format("api/%s/%s", nname, func_str)
+   lfs.mkdir("/usr/share/lilac/api/" .. nname)
+   local fn = string.format("/usr/share/lilac/api/%s/%s", nname, func_str)
    local apifile = assert(io.open(fn, "w+"), "Error: cannot open file " .. fn)
    apifile:write(func or "")
    apifile:close()
 end
 
 local function gen_api(params)
-   os.execute("mkdir -p api")
+   os.execute("mkdir -p /usr/share/lilac/api")
    local param_names = {"name", "base", "version", "desc", "csize", "isize", "url", "license", "arch", "builddate", "packager", "depends", "optdepends", "makedepends", "files"}
    for i = 1, #params.name do -- #params.name: length of params.name
       for _, param_name in ipairs(param_names) do
@@ -133,15 +133,14 @@ end
 --main function--
 time = os.date("*t")
 print(("%02d:%02d:%02d"):format(time.hour, time.min, time.sec))
-local mk_dir = os.execute("mkdir -p data")
-if (mk_dir) then
-   os.execute("tar xf bioarchlinux.files -C data/")
-end
-local pkgdir = get_pkgdir("cd data && ls -D")
+local mk_dir = io.popen("mktemp -d /tmp/bioarchlinux.XXX")
+os.execute("tar xf bioarchlinux.files -C " .. mk_dir)
+local pkgdir = get_pkgdir("cd " .. mk_dir .. " && ls -D")
 local name_ct, base_ct, version_ct, desc_ct, csize_ct, isize_ct, url_ct, license_ct, arch_ct, builddate_ct, packager_ct, depends_ct, optdepends_ct, makedepends_ct, files_ct  = get_content(pkgdir)
 print("Sucess: read finished")
 time = os.date("*t")
 print(("%02d:%02d:%02d"):format(time.hour, time.min, time.sec))
+os.execute("rm -rf /usr/share/lilac/api/*")
 local params = {
    name = name_ct,
    base = base_ct,
