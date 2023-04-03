@@ -1,5 +1,7 @@
 #!/usr/bin/lua
 
+local lfs = require("lfs") -- need lfs lib
+
 local function get_pkgdir(command)
    local pkglist = io.popen(command)
    local pkgdir = {}
@@ -15,7 +17,7 @@ local function get_string(linestr, desc_tmp)
    local file_res = ""
    local cont = false
    for line in desc_tmp:gmatch("[^\n]+") do
-      if line == linestr or cont then -- 如果找到 %FILES%
+      if line == linestr or cont then -- If find %FILES%
          cont = true -- start reading
          if line:match("^%s*$") or (line:sub(1,1) == "%" and line ~= linestr) then -- find empty line or (start symbol is % and not linestr)
             cont = false -- stop reading
@@ -31,7 +33,7 @@ local function get_content(pkgdir)
    local name_ct, base_ct, version_ct, desc_ct, csize_ct, isize_ct, url_ct, license_ct, arch_ct, builddate_ct, packager_ct, depends_ct, optdepends_ct, makedepends_ct, files_ct = {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
 
    for i = 1, #pkgdir do
-      local desc_tm = io.popen("cat data/" .. pkgdir[i] .. "/desc")
+      local desc_tm = io.open("data/" .. pkgdir[i] .. "/desc", "r")
       local desc_tmp = desc_tm:read("*a")
       desc_tm:close()
       -- read name --
@@ -95,7 +97,7 @@ local function get_content(pkgdir)
 
    --read files--
    for i = 1, #pkgdir  do
-      local file_tm = io.popen("cat data/" .. pkgdir[i] .. "/files", "r")
+      local file_tm = io.open("data/" .. pkgdir[i] .. "/files", "r")
       local file_tmp = file_tm:read("*a")
       file_tm:close()
       local file_res = get_string("%FILES%", file_tmp)
@@ -108,49 +110,56 @@ end
 
 local function write_api(name, func, func_str)
    local nname = name:gsub("%s+", "")
-   os.execute("mkdir -p api/" .. nname)
-   local fn =  "api/" .. nname .. "/" .. func_str
-   local apifile = io.open(fn, "w+")
-   if apifile == nil then
-      print("Error: cannot open file " .. fn)
-      return
-   end
-   if func == nil then
-      apifile:write("")
-   else
-      apifile:write(func)
-   end
-   print("Success: " .. fn .. " finished")
+   lfs.mkdir("api/" .. nname)
+   local fn = string.format("api/%s/%s", nname, func_str)
+   local apifile = assert(io.open(fn, "w+"), "Error: cannot open file " .. fn)
+   apifile:write(func or "")
    apifile:close()
 end
 
-local function gen_api(name_ct, base_ct, version_ct, desc_ct, csize_ct, isize_ct, url_ct, license_ct, arch_ct, builddate_ct, packager_ct, depends_ct, optdepends_ct, makedepends_ct, files_ct)
+local function gen_api(params)
    os.execute("mkdir -p api")
-   for i = 1, #name_ct do -- #name_ct: length of name_ct
-      write_api(name_ct[i], name_ct[i], "name")
-      write_api(name_ct[i], base_ct[i], "base")
-      write_api(name_ct[i], version_ct[i], "version")
-      write_api(name_ct[i], desc_ct[i], "desc")
-      write_api(name_ct[i], csize_ct[i], "csize")
-      write_api(name_ct[i], isize_ct[i], "isize")
-      write_api(name_ct[i], url_ct[i], "url")
-      write_api(name_ct[i], license_ct[i], "license")
-      write_api(name_ct[i], arch_ct[i], "arch")
-      write_api(name_ct[i], builddate_ct[i], "builddate")
-      write_api(name_ct[i], packager_ct[i], "packager")
-      write_api(name_ct[i], depends_ct[i], "depends")
-      write_api(name_ct[i], optdedepends, "optdepends")
-      write_api(name_ct[i], makedepends_ct[i], "makedepends")
-      write_api(name_ct[i], files_ct[i], "files")
+   local param_names = {"name", "base", "version", "desc", "csize", "isize", "url", "license", "arch", "builddate", "packager", "depends", "optdepends", "makedepends", "files"}
+   for i = 1, #params.name do -- #params.name: length of params.name
+      for _, param_name in ipairs(param_names) do
+         local ok, err = pcall(write_api, params.name[i], params[param_name][i], param_name)
+         if not ok then
+            print("Error: failed to write api for " .. params.name[i] .. "/" .. param_name .. ": " .. err)
+         end
+      end
    end
 end
 
-
 --main function--
+time = os.date("*t")
+print(("%02d:%02d:%02d"):format(time.hour, time.min, time.sec))
 local mk_dir = os.execute("mkdir -p data")
 if (mk_dir) then
    os.execute("tar xf bioarchlinux.files -C data/")
 end
 local pkgdir = get_pkgdir("cd data && ls -D")
 local name_ct, base_ct, version_ct, desc_ct, csize_ct, isize_ct, url_ct, license_ct, arch_ct, builddate_ct, packager_ct, depends_ct, optdepends_ct, makedepends_ct, files_ct  = get_content(pkgdir)
-gen_api(name_ct, base_ct, version_ct, desc_ct, csize_ct, isize_ct, url_ct, license_ct, arch_ct, builddate_ct, packager_ct, depends_ct, optdepends_ct, makedepends_ct, files_ct)
+print("Sucess: read finished")
+time = os.date("*t")
+print(("%02d:%02d:%02d"):format(time.hour, time.min, time.sec))
+local params = {
+   name = name_ct,
+   base = base_ct,
+   version = version_ct,
+   desc = desc_ct,
+   csize = csize_ct,
+   isize = isize_ct,
+   url = url_ct,
+   license = license_ct,
+   arch = arch_ct,
+   builddate = builddate_ct,
+   packager = packager_ct,
+   depends = depends_ct,
+   optdepends = optdepends_ct,
+   makedepends = makedepends_ct,
+   files = files_ct
+}
+gen_api(params)
+print("Sucess: write finished")
+time = os.date("*t")
+print(("%02d:%02d:%02d"):format(time.hour, time.min, time.sec))
