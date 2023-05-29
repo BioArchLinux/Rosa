@@ -1,6 +1,7 @@
 #!/usr/bin/lua
 
 local lfs = require("lfs") -- need lfs lib
+local json = require("json")
 
 local function get_pkgdir(command)
    local pkglist = io.popen(command)
@@ -38,58 +39,72 @@ local function get_content(pkgdir)
       desc_tm:close()
       -- read name --
       local desc_res = get_string("%NAME%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(name_ct, desc_res)
       local desc_res = ""
       -- read base --
       local desc_res = get_string("%BASE%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(base_ct, desc_res)
       local desc_res = ""
       -- read version --
       local desc_res = get_string("%VERSION%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(version_ct, desc_res)
       local desc_res = ""
       -- read desc --
       local desc_res = get_string("%DESC%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(desc_ct, desc_res)
       local desc_res = ""
       -- read csize --
       local desc_res = get_string("%CSIZE%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(csize_ct, desc_res)
       local desc_res = ""
       -- read isize --
       local desc_res = get_string("%ISIZE%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(isize_ct, desc_res)
       local desc_res = ""
       -- read url --
       local desc_res = get_string("%URL%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(url_ct, desc_res)
       local desc_res = ""
       -- read license --
       local desc_res = get_string("%LICENSE%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(license_ct, desc_res)
       local desc_res = ""
       -- read arch --
       local desc_res = get_string("%ARCH%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(arch_ct, desc_res)
       local desc_res = ""
       -- read builddate --
       local desc_res = get_string("%BUILDDATE%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(builddate_ct, desc_res)
       local desc_res = ""
       -- read packager --
       local desc_res = get_string("%PACKAGER%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(packager_ct, desc_res)
       local desc_res = ""
       -- read depends --
       local desc_res = get_string("%DEPENDS%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(depends_ct, desc_res)
       local desc_res = ""
       -- read optdepends --
       local desc_res = get_string("%OPTDEPENDS%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(optdepends_ct, desc_res)
       local desc_res = ""
       -- read makedepends --
       local desc_res = get_string("%MAKEDEPENDS%", desc_tmp)
+      desc_res = desc_res:gsub("\n", "")
       table.insert(makedepends_ct, desc_res)
       local desc_res = ""
    end
@@ -121,13 +136,25 @@ local function gen_api(params)
    os.execute("mkdir -p /usr/share/lilac/api")
    local param_names = {"name", "base", "version", "desc", "csize", "isize", "url", "license", "arch", "builddate", "packager", "depends", "optdepends", "makedepends", "files"}
    for i = 1, #params.name do -- #params.name: length of params.name
+      -- create a table
+      local param_table = {}
       for _, param_name in ipairs(param_names) do
-         local ok, err = pcall(write_api, params.name[i], params[param_name][i], param_name)
-         if not ok then
-            print("Error: failed to write api for " .. params.name[i] .. "/" .. param_name .. ": " .. err)
-         end
+         -- insert para into table
+         param_table[param_name] = params[param_name][i]
       end
+      -- convert table to json
+      local param_json = json.encode(param_table)
+      local file = io.open("/usr/share/lilac/api/" .. params.name[i] .. ".json", "w")
+      file:write(param_json .. "\n")
+      file:close()
    end
+end
+
+local function gen_pkglist(name)
+  local name_json = json.encode(name)
+  local file = io.open("/usr/share/lilac/api/pkglist.json", "w")
+  file:write(name_json .. "\n")
+  file:close()
 end
 
 --main function--
@@ -161,6 +188,7 @@ local params = {
    files = files_ct
 }
 gen_api(params)
+gen_pkglist(name_ct)
 print("Sucess: write finished")
 time = os.date("*t")
 print(("%02d:%02d:%02d"):format(time.hour, time.min, time.sec))
