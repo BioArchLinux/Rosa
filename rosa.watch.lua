@@ -19,12 +19,12 @@ local function check_changes()
     last_modified = current_modified
     -- run script
     print("Executing Rosa Lua")
-    dofile(rosalua)
+    os.execute("lua " .. rosalua)
   end
 end
 
---2 min sync--
+--45s sync--
 while true do
   check_changes()
-  os.execute("sleep " .. tonumber(120)) -- 120s = 2min
+  os.execute("sleep " .. tonumber(45)) -- 45s
 end
