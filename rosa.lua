@@ -94,17 +94,14 @@ local function get_content(pkgdir)
       local desc_res = ""
       -- read depends --
       local desc_res = get_string("%DEPENDS%", desc_tmp)
-      desc_res = desc_res:gsub("\n", "")
       table.insert(depends_ct, desc_res)
       local desc_res = ""
       -- read optdepends --
       local desc_res = get_string("%OPTDEPENDS%", desc_tmp)
-      desc_res = desc_res:gsub("\n", "")
       table.insert(optdepends_ct, desc_res)
       local desc_res = ""
       -- read makedepends --
       local desc_res = get_string("%MAKEDEPENDS%", desc_tmp)
-      desc_res = desc_res:gsub("\n", "")
       table.insert(makedepends_ct, desc_res)
       local desc_res = ""
    end
