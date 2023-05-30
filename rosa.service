@@ -2,6 +2,8 @@
 Description=Rosa API generator
 [Service]
 Type=simple
+User=root
+WorkingDirectory=/usr/share/lilac/Rosa
 ExecStart=/usr/bin/lua /usr/share/lilac/Rosa/rosa.watch.lua
 [Install]
 WantedBy=multi-user.target
