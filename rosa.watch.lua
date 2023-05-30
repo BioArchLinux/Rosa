@@ -18,8 +18,8 @@ local function check_changes()
   end
 end
 
---45s sync--
+--continue syncing--
 while true do
   check_changes()
-  os.execute("sleep " .. tonumber(45)) -- 45s
+  os.execute("sleep " .. tonumber(1)) -- 1s
 end
