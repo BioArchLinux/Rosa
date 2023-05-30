@@ -2,24 +2,19 @@
 
 local lfs = require("lfs")
 
-local rosalua = "/usr/share/lilac/Rosa/rosa.lua"
-local filepath = "/usr/share/lilac/Repo/x86_64/bioarchlinux.files" -- what I watch
 local last_modified = nil
-local attr = lfs.attributes(filepath)
-last_modified = attr.modification
 
 --watch file--
 local function check_changes()
   -- current time
-  local attr = lfs.attributes(filepath)
-  local current_modified = attr.modification
+  local current_modified = os.date("%c", lfs.attributes("/usr/share/lilac/Repo/x86_64/bioarchlinux.files").modification)
   -- if different
   if current_modified ~= last_modified then
-    -- update info
-    last_modified = current_modified
     -- run script
     print("Executing Rosa Lua")
-    os.execute("lua " .. rosalua)
+    os.execute("/usr/bin/lua /usr/share/lilac/Rosa/rosa.lua")
+    -- update info
+    last_modified = current_modified
   end
 end
 
