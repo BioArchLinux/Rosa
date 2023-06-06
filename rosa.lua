@@ -74,12 +74,10 @@ local function get_content(pkgdir)
       local desc_res = ""
       -- read license --
       local desc_res = get_string("%LICENSE%", desc_tmp)
-      desc_res = desc_res:gsub("\n", "")
       table.insert(license_ct, desc_res)
       local desc_res = ""
       -- read arch --
       local desc_res = get_string("%ARCH%", desc_tmp)
-      desc_res = desc_res:gsub("\n", "")
       table.insert(arch_ct, desc_res)
       local desc_res = ""
       -- read builddate --
