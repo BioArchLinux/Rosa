@@ -10,6 +10,7 @@
     "lint": "standard"
   },
   "devDependencies": {
+    "@rollup/plugin-replace": "^5.0.2",
     "@vitejs/plugin-vue": "^4.2.3",
     "sass": "^1.62.1",
     "standard": "^17.1.0",
