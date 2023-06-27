@@ -1,0 +1,21 @@
+.pkgname-header {
+  border-bottom: 1px solid #888;
+  margin-bottom: .5em;
+}
+
+table.pkginfo {
+  th {
+    text-align: start;
+  }
+
+  td {
+    padding-left: 2em;
+  }
+}
+
+.pkginfo-section {
+  background: #555;
+  color: #fff;
+  margin: .5em 0;
+  padding: .2em .35em;
+}

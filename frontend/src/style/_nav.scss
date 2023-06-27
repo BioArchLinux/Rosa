@@ -1,0 +1,44 @@
+nav {
+  padding: 10px 15px;
+  background: #333;
+  border-bottom: 5px #08c solid;
+
+  display: flex;
+}
+
+#logo {
+  margin-right: auto;
+}
+
+#navbarlist {
+  list-style: none;
+}
+
+#navbarlist li {
+  font-size: 14px;
+  font-family: sans-serif;
+  line-height: 14px;
+  display: inline-block;
+
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+}
+
+#navbarlist a{
+  color: #999;
+  font-weight: bold;
+  text-decoration: none;
+
+  display: inline-block;
+  padding: 14px 10px 0px;
+
+  &.active {
+    color: white;
+  }
+
+  &:hover {
+    color: white;
+    text-decoration: underline;
+  }
+}

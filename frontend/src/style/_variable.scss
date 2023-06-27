@@ -1,0 +1,23 @@
+@media screen and (prefers-color-scheme: light){
+  :root {
+    --fg: #000;
+    --bg: #fff;
+
+    --box-bg: #ecf2f5;
+
+    --index-thead-border: #000;
+    --index-item-hover: #ffd;
+  }
+}
+
+@media screen and (prefers-color-scheme: dark){
+  :root {
+    --fg: rgba(255, 255, 255, 0.87);
+    --bg: #000;
+
+    --box-bg: #212427;
+
+    --index-thead-border: #fff;
+    --index-item-hover: #424242;
+  }
+}

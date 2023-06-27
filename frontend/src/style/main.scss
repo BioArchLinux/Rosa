@@ -1,0 +1,38 @@
+// Configuration
+@import "variable";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  padding: 15px;
+}
+
+table {
+  border-collapse: collapse;
+  margin: .5em 0;
+}
+
+.box {
+  border: 1px solid #bcd;
+  padding: .5em;
+  background: var(--box-bg);
+}
+
+table#index-table thead {
+  border-bottom: 1px solid var(--index-thead-border);
+}
+
+tr.index-item:hover {
+  background: var(--index-item-hover);
+}
+
+// Components
+@import "root";
+@import "nav";
+@import "pkginfo";
