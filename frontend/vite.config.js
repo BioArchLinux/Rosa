@@ -5,10 +5,11 @@ import replace from '@rollup/plugin-replace'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig(({command}) => { return {
+  base: './',
   plugins: [
     replace({
       // production / development environment api base
-      __API_BASE__: command === 'build' ? JSON.stringify('https://bioarchlinux.org/')
+      __API_BASE__: command === 'build' ? JSON.stringify('https://bioarchlinux.org')
                                         : JSON.stringify(''),
       preventAssignment: true,
     }),
