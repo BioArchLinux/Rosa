@@ -9,6 +9,8 @@ export default defineConfig(({command}) => { return {
   plugins: [
     replace({
       // production / development environment api base
+      __WEBSITE_BASE__: command === 'build' ? JSON.stringify('/packages')
+                                            : JSON.stringify(''),
       __API_BASE__: command === 'build' ? JSON.stringify('https://bioarchlinux.org')
                                         : JSON.stringify(''),
       preventAssignment: true,
