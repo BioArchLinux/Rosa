@@ -72,6 +72,8 @@ requestPackageInfo(route.params.packageName)
       </tbody>
     </table>
 
+    <a :href="`https://github.com/BioArchLinux/Packages/tree/master/BioArchLinux/${pkginfo.base}`">View PKGBUILD</a>
+
     <h3 class="pkginfo-section">Dependencies</h3>
     <p v-for="dep in depends"> {{ dep }}</p>
     <p v-for="optdep in optdepends"> {{ optdep }} (optional)</p>
