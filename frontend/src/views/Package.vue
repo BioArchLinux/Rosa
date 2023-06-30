@@ -7,6 +7,7 @@ import ViewDetail from '@/components/PackageInfo/ViewDetail.vue'
 import moment from 'moment'
 import { requestPackageInfo } from '@/api'
 import { calculateSize } from '@/utils/sizing'
+import { formatPackager } from '@/utils/packager'
 
 const route = useRoute()
 
@@ -54,7 +55,7 @@ requestPackageInfo(route.params.packageName)
         </tr>
         <tr>
           <th>Packager:</th>
-          <td>{{ pkginfo.packager }}</td>
+          <td v-html="formatPackager(pkginfo.packager)"></td>
         </tr>
         <tr>
           <th>Package Size:</th>
