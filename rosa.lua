@@ -152,6 +152,22 @@ local function gen_pkglist(name)
   file:close()
 end
 
+local function gen_index(params_pkglist)
+  local combined_params = {}
+  for i = 1, #params_pkglist.name do
+    table.insert(combined_params, {
+      name = params_pkglist.name[i],
+      version = params_pkglist.version[i],
+      desc = params_pkglist.desc[i],
+      builddate = params_pkglist.builddate[i]
+    })
+  end
+  local pkglist_json = json.encode(combined_params)
+  local file = io.open("/usr/share/lilac/api/index.json", "w")
+  file:write(pkglist_json .. "\n")
+  file:close()
+end
+
 --main function--
 time = os.date("*t")
 print(("%02d:%02d:%02d"):format(time.hour, time.min, time.sec))
@@ -182,8 +198,15 @@ local params = {
    makedepends = makedepends_ct,
    files = files_ct
 }
+local indexlist = {
+  name = name_ct,
+  version = version_ct,
+  desc = desc_ct,
+  builddate = builddate_ct
+}
 gen_api(params)
 gen_pkglist(name_ct)
+gen_index(indexlist)
 print("Sucess: write finished")
 time = os.date("*t")
 print(("%02d:%02d:%02d"):format(time.hour, time.min, time.sec))
