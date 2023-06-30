@@ -1,7 +1,7 @@
 const DATA_UNIT_FACTOR = 1024
 
-export function calculateSize(size) {
-  function wellSized(num) {
+export function calculateSize (size) {
+  function wellSized (num) {
     return num > 1 && num < DATA_UNIT_FACTOR
   }
   if (size === undefined) { return }

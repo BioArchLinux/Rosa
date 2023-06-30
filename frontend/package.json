@@ -21,5 +21,14 @@
     "moment": "^2.29.4",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2"
+  },
+  "standard": {
+    "globals": [
+      "__WEBSITE_BASE__",
+      "__API_BASE__"
+    ],
+    "ignore": [
+      "vite.config.js"
+    ]
   }
 }
