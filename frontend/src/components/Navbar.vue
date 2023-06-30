@@ -1,7 +1,7 @@
 <template>
   <nav>
     <div id="logo">
-      <h1><a href="/" title="Take me home">Bio Arch Linux</a></h1>
+      <h1><a href="/" title="Take me home">BioArchLinux</a></h1>
     </div>
 
     <ul id="navbarlist">

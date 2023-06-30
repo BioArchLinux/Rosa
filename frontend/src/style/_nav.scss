@@ -8,6 +8,22 @@ nav {
 
 #logo {
   margin-right: auto;
+
+  width: 190px;
+  height: 40px;
+  background: url('https://bioarchlinux.org/css/archnavbar/bioarchlinux.png') no-repeat;
+  background-size: 100%;
+
+  h1{
+    // make text offscreen
+    text-indent: -9999px !important;
+  }
+
+  a {
+    display: block;
+    width: 190px;
+    height: 40px;
+  }
 }
 
 #navbarlist {
