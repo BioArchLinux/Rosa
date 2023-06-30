@@ -45,8 +45,8 @@ watch(
   <div style="display: flex;">
     <p>{{ count }} packages. page {{ currentPage }} of {{ pages }}.</p>
     <div style="margin-left: auto;">
-      <a href="#" @click.prevent="pageUp" style="margin-right: 2em;">&lt; 上一页</a>
-      <a href="#" @click.prevent="pageDown">下一页 &gt;</a>
+      <a href="#" @click.prevent="pageUp" style="margin-right: 2em;">&lt; Prev</a>
+      <a href="#" @click.prevent="pageDown">Next &gt;</a>
     </div>
   </div>
 
@@ -68,8 +68,8 @@ watch(
   <div style="display: flex;">
     <p>{{ count }} packages. page {{ currentPage }} of {{ pages }}.</p>
     <div style="margin-left: auto;">
-      <a href="#" @click.prevent="pageUp" style="margin-right: 2em;">&lt; 上一页</a>
-      <a href="#" @click.prevent="pageDown">下一页 &gt;</a>
+      <a href="#" @click.prevent="pageUp" style="margin-right: 2em;">&lt; Prev</a>
+      <a href="#" @click.prevent="pageDown">Next &gt;</a>
     </div>
   </div>
 </template>
