@@ -1,24 +1,24 @@
+const rePackagerField = /\(on behalf of (?<packager>.*)\)/
 const reMailField = /<(?<email>.*)>/
 
+/**
+ * generate <a> HTML code for email address
+ * @param {String} address email address
+ * @returns {String} HTML code
+ */
 function generateMailtoAnchor (address) {
   return `<a href="mailto:${address}">${address}</a>`
 }
 
 /**
- * replace range of string with another string
- * "... [index+length] ..." -> "... replacement ..."
- * @param {Number} start start position of range
- * @param {Number} length length of range
- * @param {String} replacement replacement string
- * @returns {String} Result
+ * format packager field
+ * @param {String} desc packager field in string
+ * @returns {String} rendered HTML code
  */
-function replaceRange (start, length, replacement) {
-  return this.substr(0, start) + replacement + this.substr(start + length)
-}
-
 export function formatPackager (desc) {
   if (desc === undefined) { return }
-  const mailMatch = reMailField.exec(desc)
-  const htmlAnchor = generateMailtoAnchor(mailMatch.groups.email)
-  return replaceRange.call(desc, mailMatch.index, mailMatch[0].length, `<${htmlAnchor}>`)
+  const packager = rePackagerField.exec(desc).groups.packager
+  const mailAddress = reMailField.exec(desc).groups.email
+
+  return `${packager} <${generateMailtoAnchor(mailAddress)}>`
 }
