@@ -18,14 +18,38 @@ table {
   margin: .5em 0;
 }
 
+// search bar
+.search {
+  width: 100%;
+  
+  margin: 15px 0;
+
+  font-size: 15px;
+  padding: .5em .5em;
+}
+
 .box {
   border: 1px solid #bcd;
   padding: .5em;
   background: var(--box-bg);
 }
 
-table#index-table thead {
-  border-bottom: 1px solid var(--index-thead-border);
+.table-scroll-wrapper {
+  overflow-x: auto;
+}
+
+table#index-table {
+  width: 100%;
+
+  thead {
+    border-bottom: 1px solid var(--index-thead-border);
+  }
+
+  tbody {
+    td {
+      white-space: nowrap;
+    }
+  }
 }
 
 tr.index-item:hover {

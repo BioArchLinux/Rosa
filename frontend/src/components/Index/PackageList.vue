@@ -1,10 +1,14 @@
 <script setup>
 import { ref, watch } from 'vue';
-import PackageListItem from './PackageListItem.vue'
 import { displayPackages } from '@/state'
-import { useRouter } from 'vue-router'
+import moment from 'moment'
 
-const router = useRouter()
+const tableHeaders = [
+  { text: 'Name', field: 'name' },
+  { text: 'Version', field: 'version' },
+  { text: 'Description', field: 'desc' },
+  { text: 'Last Build', field: 'builddate' },
+]
 
 const currentDisplay = ref([])
 const count = ref(0)
@@ -28,10 +32,6 @@ function displayPage() {
 function pageUp() { if (currentPage > 1) { --currentPage; displayPage(); } }
 function pageDown() { if (currentPage < pages) { ++currentPage; displayPage(); } }
 
-function navigatorToItem(pkg) {
-  router.push(`/${pkg}`)
-}
-
 watch(
   displayPackages,
   async newVal => {
@@ -50,20 +50,26 @@ watch(
     </div>
   </div>
 
-  <table id="index-table">
-    <thead>
-      <tr>
-        <td>Name</td>
-        <td>Version</td>
-        <td>Description</td>
-        <td>Last Build</td>
-      </tr>
-    </thead>
-    
-    <tbody v-for="pkg in currentDisplay" :key="pkg">
-      <PackageListItem :pkgname="pkg" @click="navigatorToItem(pkg)"></PackageListItem>
-    </tbody>
-  </table>
+  <div class="table-scroll-wrapper">
+    <table id="index-table">
+      <thead>
+        <tr>
+          <td v-for="head in tableHeaders">{{ head.text }}</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <!-- <PackageListItem :pkgname="pkg.name" @click="navigatorToItem(pkg.name)"></PackageListItem> -->
+        <tr v-for="pkg in currentDisplay" :key="pkg.name">
+          <td v-for="heading in tableHeaders">
+            <router-link v-if="heading.field == 'name'" :to="`/${pkg.name}`">{{pkg.name}}</router-link>
+            <time v-else-if="heading.field == 'builddate'" :datetime="moment.unix(pkg.builddate).format()">{{ moment.unix(pkg.builddate).format('YYYY-MM-DD') }}</time>
+            <span v-else>{{ pkg[heading.field] }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <div style="display: flex;">
     <p>{{ count }} packages. page {{ currentPage }} of {{ pages }}.</p>
@@ -73,9 +79,3 @@ watch(
     </div>
   </div>
 </template>
-
-<style>
-#index-table {
-  width: 100%;
-}
-</style>
