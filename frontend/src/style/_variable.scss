@@ -3,10 +3,15 @@
     --fg: #000;
     --bg: #fff;
 
+    --link-fg: #08c;
+
     --box-bg: #ecf2f5;
 
     --index-thead-border: #000;
     --index-item-hover: #ffd;
+
+    --package-actions-box-bg: #eee;
+    --package-actions-box-border-color: #bbb;
   }
 }
 
@@ -15,9 +20,14 @@
     --fg: rgba(255, 255, 255, 0.87);
     --bg: #000;
 
+    --link-fg: rgb(140, 140, 255);
+
     --box-bg: #212427;
 
     --index-thead-border: #fff;
     --index-item-hover: #424242;
+
+    --package-actions-box-bg: #222;
+    --package-actions-box-border-color: #fff;
   }
 }

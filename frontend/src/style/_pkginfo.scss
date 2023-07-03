@@ -13,6 +13,24 @@ table.pkginfo {
   }
 }
 
+.right-things {
+  float: right;
+}
+
+#actionlist {
+  padding: .5em;
+  margin-bottom: 1em;
+  background: var(--package-actions-box-bg);
+  border: 1px solid var(--package-actions-box-border-color);
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+    font-size: .846em;
+  }
+}
+
 .pkginfo-section {
   background: #555;
   color: #fff;

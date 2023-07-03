@@ -9,6 +9,19 @@
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+a:link,
+a:visited
+{
+  color: var(--link-fg);
+}
+
 .content {
   padding: 15px;
 }

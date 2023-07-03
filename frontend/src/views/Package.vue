@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 
+import PackageActions from '@/components/PackageInfo/PackageActions.vue'
 import ViewDetail from '@/components/PackageInfo/ViewDetail.vue'
 
 import moment from 'moment'
@@ -34,6 +35,10 @@ requestPackageInfo(route.params.packageName)
 <template>
   <div class="box">
     <h2 class="pkgname-header">{{ pkginfo.name }} {{ pkginfo.version }}</h2>
+
+    <div class="right-things">
+      <PackageActions :pkginfo="pkginfo"></PackageActions>
+    </div>
 
     <table class="pkginfo">
       <tbody>
@@ -71,8 +76,6 @@ requestPackageInfo(route.params.packageName)
         </tr>
       </tbody>
     </table>
-
-    <a :href="`https://github.com/BioArchLinux/Packages/tree/master/BioArchLinux/${pkginfo.base}`">View PKGBUILD</a>
 
     <h3 class="pkginfo-section">Dependencies</h3>
     <p v-for="dep in depends"> {{ dep }}</p>
