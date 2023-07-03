@@ -6,8 +6,8 @@ const reMailField = /<(?<email>.*)>/
  * @param {String} address email address
  * @returns {String} HTML code
  */
-function generateMailtoAnchor (address) {
-  return `<a href="mailto:${address}">${address}</a>`
+function generateMailtoAnchor (name, address) {
+  return `<a href="mailto:${address}">${name}</a>`
 }
 
 /**
@@ -20,5 +20,5 @@ export function formatPackager (desc) {
   const packager = rePackagerField.exec(desc).groups.packager
   const mailAddress = reMailField.exec(desc).groups.email
 
-  return `${packager} <${generateMailtoAnchor(mailAddress)}>`
+  return generateMailtoAnchor(packager, mailAddress)
 }
