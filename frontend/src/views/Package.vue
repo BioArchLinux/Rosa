@@ -3,10 +3,12 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 import PackageActions from '@/components/PackageInfo/PackageActions.vue'
+import PackageDependency from '@/components/PackageInfo/PackageDependency.vue'
 import ViewDetail from '@/components/PackageInfo/ViewDetail.vue'
 
 import moment from 'moment'
-import { requestPackageInfo } from '@/api'
+
+import { requestPackageInfo, requestPackageList } from '@/api'
 import { calculateSize } from '@/utils/sizing'
 import { formatPackager } from '@/utils/packager'
 
@@ -24,11 +26,29 @@ requestPackageInfo(route.params.packageName)
   .then(obj => {
     pkginfo.value = obj
 
-    depends.value = obj.depends.split('\n').filter((elem) => elem.length > 0)
-    optdepends.value = obj.optdepends.split('\n').filter((elem) => elem.length > 0)
-    makedepends.value = obj.makedepends.split('\n').filter((elem) => elem.length > 0)
     files.value = obj.files.split('\n').filter((elem) => elem.length > 0)
     builddate.value = moment.unix(obj.builddate).format('YYYY-MM-DD HH:MM:SS')
+    
+    const o_depends = obj.depends.split('\n').filter((elem) => elem.length > 0)
+    const o_optdepends = obj.optdepends.split('\n').filter((elem) => elem.length > 0)
+    const o_makedepends = obj.makedepends.split('\n').filter((elem) => elem.length > 0)
+
+    requestPackageList()
+      .then((list) => {
+        list.forEach((bioarchPackageName) => {
+          function mapPackageDistribution(pkg) {
+            if (bioarchPackageName === pkg) {
+              return { name: pkg, dist: 'bioarch' }
+            }
+            else {
+              return { name: pkg, dist: 'arch' }
+            }
+          }
+          depends.value = o_depends.map(mapPackageDistribution)
+          optdepends.value = o_optdepends.map(mapPackageDistribution)
+          makedepends.value = o_makedepends.map(mapPackageDistribution)
+        })
+      })
   })
 </script>
 
@@ -78,9 +98,9 @@ requestPackageInfo(route.params.packageName)
     </table>
 
     <h3 class="pkginfo-section">Dependencies</h3>
-    <p v-for="dep in depends"> {{ dep }}</p>
-    <p v-for="optdep in optdepends"> {{ optdep }} (optional)</p>
-    <p v-for="makedep in makedepends"> {{ makedep }} (make)</p>
+    <PackageDependency :name="dep.name" :dist="dep.dist" type="dep" v-for="dep in depends"></PackageDependency>
+    <PackageDependency :name="optdep.name" :dist="optdep.dist" type="optional" v-for="optdep in optdepends"></PackageDependency>
+    <PackageDependency :name="makedep.name" :dist="makedep.dist" type="make" v-for="makedep in makedepends"></PackageDependency>
 
     <h3 class="pkginfo-section">Package Content</h3>
     <ViewDetail :message="`View the file list for ${pkginfo.name}`">

@@ -6,9 +6,8 @@ import Index from 'flexsearch/dist/module/index'
 
 import { requestPackageIndex } from '../api'
 
-import { displayPackages } from '@/state'
+import { packageIndex, displayPackages } from '@/state'
 
-let packageIndex = null
 const searchIndex = new Index({ tokenize: 'forward' })
 
 let searchInput = ref("")
@@ -21,20 +20,20 @@ function updateSearchIndex(pkglist) {
 
 requestPackageIndex()
   .then((obj) => {
-    packageIndex = obj
+    packageIndex.value = obj
     displayPackages.value = obj
     updateSearchIndex(obj)
   })
 
 watch(searchInput, async(newVal, oldVal) => {
   if (searchInput.value.length === 0) {
-    displayPackages.value = packageIndex
+    displayPackages.value = packageIndex.value
   }
   else {
     const searchResult = searchIndex.search(searchInput.value)
     const finalResult = []
     searchResult.forEach((idx) => {
-      finalResult.push(packageIndex[idx])
+      finalResult.push(packageIndex.value[idx])
     })
     displayPackages.value = finalResult
   }
