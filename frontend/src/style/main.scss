@@ -9,6 +9,10 @@
   padding: 0;
 }
 
+body {
+  min-width: 650px;
+}
+
 a {
   text-decoration: none;
   &:hover {

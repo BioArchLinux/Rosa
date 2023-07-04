@@ -1,5 +1,6 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, sans-serif;
+  font-size: 14px;
   line-height: 1.5;
   font-weight: 400;
 
@@ -12,4 +13,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+@media screen and (max-width: 576px) {
+  :root {
+    font-size: 12px;
+  }
 }
