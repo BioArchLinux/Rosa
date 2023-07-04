@@ -64,7 +64,7 @@ watch(
           <td v-for="heading in tableHeaders">
             <router-link v-if="heading.field == 'name'" :to="`/${pkg.name}`">{{pkg.name}}</router-link>
             <time v-else-if="heading.field == 'builddate'" :datetime="moment.unix(pkg.builddate).format()">{{ moment.unix(pkg.builddate).format('YYYY-MM-DD') }}</time>
-            <span v-else>{{ pkg[heading.field] }}</span>
+            <span v-else :class="{ wrap: heading.field === 'desc' }">{{ pkg[heading.field] }}</span>
           </td>
         </tr>
       </tbody>
