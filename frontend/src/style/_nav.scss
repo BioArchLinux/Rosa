@@ -35,10 +35,6 @@ nav {
   font-family: sans-serif;
   line-height: 14px;
   display: inline-block;
-
-  &:not(:last-child) {
-    margin-right: 10px;
-  }
 }
 
 #navbarlist a{
@@ -47,7 +43,7 @@ nav {
   text-decoration: none;
 
   display: inline-block;
-  padding: 14px 10px 0px;
+  padding: 14px 15px 0px;
 
   &.active {
     color: white;
