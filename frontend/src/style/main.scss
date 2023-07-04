@@ -63,14 +63,22 @@ table#index-table {
   }
 
   tbody {
+    tr {
+      &:nth-child(2n+1) {
+        background: var(--index-item-bg1);
+      }
+      &:nth-child(2n) {
+        background: var(--index-item-bg2);
+      }
+      &:hover {
+        background: var(--index-item-hover);
+      }
+    }
+
     td {
       white-space: nowrap;
     }
   }
-}
-
-tr.index-item:hover {
-  background: var(--index-item-hover);
 }
 
 // Components
