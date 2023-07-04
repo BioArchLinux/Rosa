@@ -43,7 +43,9 @@ watch(searchInput, async(newVal, oldVal) => {
 
 <template>
   <div class="box" style="margin-bottom: 15px;">
-    <input class="search" type="text" v-model="searchInput">
+    <h2>Package Search</h2>
+    <label for="search-input">Keyword</label>
+    <input class="search" type="text" id="search-input" v-model="searchInput">
   </div>
   <div class="box">
     <PackageList></PackageList>

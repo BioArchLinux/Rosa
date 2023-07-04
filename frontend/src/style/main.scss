@@ -26,6 +26,11 @@ a:visited
   color: var(--link-fg);
 }
 
+h2 {
+  border-bottom: 1px solid #888;
+  margin-bottom: .5em;
+}
+
 .content {
   width: 95%;
   margin: 30px auto;

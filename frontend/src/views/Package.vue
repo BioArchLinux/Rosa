@@ -34,7 +34,7 @@ requestPackageInfo(route.params.packageName)
 
 <template>
   <div class="box">
-    <h2 class="pkgname-header">{{ pkginfo.name }} {{ pkginfo.version }}</h2>
+    <h2>{{ pkginfo.name }} {{ pkginfo.version }}</h2>
 
     <div class="right-things">
       <PackageActions :pkginfo="pkginfo"></PackageActions>
