@@ -1,0 +1,35 @@
+// search bar
+.search {
+  width: 100%;
+  
+  margin: 15px 0;
+
+  font-size: 15px;
+  padding: .5em .5em;
+}
+
+table#index-table {
+  width: 100%;
+
+  thead {
+    border-bottom: 1px solid var(--index-thead-border);
+  }
+
+  tbody {
+    tr {
+      &:nth-child(2n+1) {
+        background: var(--index-item-bg1);
+      }
+      &:nth-child(2n) {
+        background: var(--index-item-bg2);
+      }
+      &:hover {
+        background: var(--index-item-hover);
+      }
+    }
+
+    td {
+      white-space: nowrap;
+    }
+  }
+}
