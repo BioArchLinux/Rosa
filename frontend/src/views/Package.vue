@@ -35,19 +35,17 @@ requestPackageInfo(route.params.packageName)
 
     requestPackageList()
       .then((list) => {
-        list.forEach((bioarchPackageName) => {
-          function mapPackageDistribution(pkg) {
-            if (bioarchPackageName === pkg) {
-              return { name: pkg, dist: 'bioarch' }
-            }
-            else {
-              return { name: pkg, dist: 'arch' }
-            }
+        function mapPackageDistribution(pkg) {
+          if (list.find(dep => dep === pkg)) {
+            return { name: pkg, dist: 'bioarch' }
           }
-          depends.value = o_depends.map(mapPackageDistribution)
-          optdepends.value = o_optdepends.map(mapPackageDistribution)
-          makedepends.value = o_makedepends.map(mapPackageDistribution)
-        })
+          else {
+            return { name: pkg, dist: 'arch' }
+          }
+        }
+        depends.value = o_depends.map(mapPackageDistribution)
+        optdepends.value = o_optdepends.map(mapPackageDistribution)
+        makedepends.value = o_makedepends.map(mapPackageDistribution)
       })
   })
 </script>
