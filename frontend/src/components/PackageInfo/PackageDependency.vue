@@ -1,4 +1,6 @@
 <script setup>
+import { getTrueName } from '@/utils/dependexpr'
+
 const props = defineProps({
   name: String,
   type: String,
@@ -18,5 +20,5 @@ function generatePackageLinkUrl(name, dist) {
 </script>
 
 <template>
-  <p><a :href="generatePackageLinkUrl(name, dist)">{{ name }}</a><span v-if="type !== 'dep'"> ({{ type }})</span></p>
+  <p><a :href="generatePackageLinkUrl(getTrueName(name), dist)">{{ getTrueName(name) }}</a>{{ name.substring(getTrueName(name).length) }}<span v-if="type !== 'dep'"> ({{ type }})</span></p>
 </template>

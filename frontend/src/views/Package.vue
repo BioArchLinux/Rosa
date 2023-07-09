@@ -11,6 +11,7 @@ import moment from 'moment'
 import { requestPackageInfo, requestPackageList } from '@/api'
 import { calculateSize } from '@/utils/sizing'
 import { formatPackager } from '@/utils/packager'
+import { getTrueName } from '@/utils/dependexpr'
 
 const route = useRoute()
 
@@ -36,7 +37,7 @@ requestPackageInfo(route.params.packageName)
     requestPackageList()
       .then((list) => {
         function mapPackageDistribution(pkg) {
-          if (list.find(dep => dep === pkg)) {
+          if (list.find(dep => dep === getTrueName(pkg))) {
             return { name: pkg, dist: 'bioarch' }
           }
           else {
