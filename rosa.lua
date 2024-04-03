@@ -175,7 +175,7 @@ local mk_dir = os.execute("rm -rf /usr/share/lilac/Rosa/data && mkdir -p /usr/sh
 if mk_dir then
    os.execute("tar xf /usr/share/lilac/Repo/x86_64/bioarchlinux.files -C /usr/share/lilac/Rosa/data/")
 end
-local pkgdir = get_pkgdir("cd /usr/share/lilac/Rosa/data/ && ls -D")
+local pkgdir = get_pkgdir("cd /usr/share/lilac/Rosa/data/ && ls --quoting-style=shell-escape")
 local name_ct, base_ct, version_ct, desc_ct, csize_ct, isize_ct, url_ct, license_ct, arch_ct, builddate_ct, packager_ct, depends_ct, optdepends_ct, makedepends_ct, files_ct  = get_content(pkgdir)
 print("Sucess: read finished")
 time = os.date("*t")
